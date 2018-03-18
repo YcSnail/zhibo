@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+
+    <link rel="stylesheet" href="/static/bootstrap/css/bootstrap.css">
+    <script src="/static/js/jquery.3.3.1.js"></script>
+    <script src="/static/bootstrap/js/bootstrap.js"></script>
+    <title>添加主播</title>
+
+    <style>
+
+        .div-none{
+            display: none;
+        }
+
+        .show-status{
+            border-radius: 6px;
+            padding: 4px;
+        }
+
+        .bs-docs-container{
+            margin-top: 30px;
+        }
+
+        #preview{
+            width: 250px;
+            height: 200px;
+        }
+
+        .btn-success{
+            width:100%;
+        }
+
+
+        .alert-message{
+            margin-top: 10px;
+        }
+
+        .show-img{
+            margin-bottom: 6px;
+        }
+
+    </style>
+
+</head>
+<body>
+
+
+<div class="container bs-docs-container">
+
+    <div class="row">
+        <div class="col-md-3">
+            <form onsubmit="return false" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label>主播名称</label>
+                    <input type="text" class="form-control user_name" placeholder="请输入主播名称">
+                </div>
+
+                <div class="form-group">
+                    <label>描述</label>
+                    <input type="text" class="form-control title" placeholder="请输入主播名称">
+                </div>
+
+                <div class="form-group">
+                    <label>直播地址</label>
+                    <input type="text" class="form-control url" placeholder="请输入直播地址">
+                </div>
+
+                <div class="form-group">
+                    <label>主播头像</label>
+                    <img id="preview" class="show-img div-none" />
+
+                    <p class="div-none">主播头像</p>
+                    <input type="file" class="img">
+                </div>
+
+                <div class="btn-group" role="group">
+                    <button class="btn btn-primary jumpHref">返回首页</button>
+                </div>
+
+
+                <div class="btn-group" role="group">
+                    <button class="btn btn-success btn-submit">提交</button>
+                </div>
+
+
+                <div class="alert-message div-none">
+                    <div class="alert alert-danger" role="alert"></div>
+                </div>
+
+            </form>
+        </div>
+
+    </div>
+
+
+
+</div>
+
+
+<script>
+
+    $().ready(function () {
+
+        $('.jumpHref').click(function () {
+            var href = window.location.origin;
+            window.location.href = href;
+        });
+
+        // 提交事件
+        $('.btn-submit').click(function () {
+
+            var user_name = $('.user_name').val();
+            var url = $('.url').val();
+            var img = $('.show-img').attr("src");
+            var title = $('.title').val();
+
+            if (user_name ==''){
+                alertMessage('user_name');
+                return false;
+            }
+
+            if (url ==''){
+                alertMessage('url');
+                return false;
+            }
+
+            if (img ==''){
+                alertMessage('img');
+                return false;
+            }
+            if (title ==''){
+                alertMessage('title');
+                return false;
+            }
+
+            // post 请求
+            var postUrl = "/api/user/add";
+            $.post(
+                postUrl,
+                {
+                    'user_name':user_name,
+                    'url':url,
+                    'img':img,
+                    'title':title
+
+                },function (data) {
+
+                    if (data.code == 0){
+                        showMessage('添加成功! 3秒后返回主页');
+                        setTimeout(function(){  //使用  setTimeout（）方法设定定时2000毫秒
+                            var href = window.location.origin;
+                            window.location.href = href;
+                        },3000);
+
+                    }else{
+                        showMessage(data.message);
+                    }
+
+                },'JSON'
+            )
+
+
+
+        });
+
+        function alertMessage(ClassName) {
+
+            if (!ClassName){
+                return false;
+            }
+
+            var message = $('.'+ClassName).prev().text();
+            message +=' 不能为空!';
+            showMessage(message);
+        }
+
+        function showMessage(message) {
+            $('.alert-message').removeClass('div-none');
+            $('.alert-message > .alert-danger').text(message);
+        }
+
+        $('.img').change(function () {
+            imgPreview(this)
+        });
+        // 获取预览图片
+        function imgPreview(fileDom){
+            //判断是否支持FileReader
+            if (window.FileReader) {
+                var reader = new FileReader();
+            } else {
+                alert("您的设备不支持图片预览功能，如需该功能请升级您的设备！");
+            }
+
+            //获取文件
+            var file = fileDom.files[0];
+            var imageType = /^image\//;
+            //是否是图片
+            if (!imageType.test(file.type)) {
+                alert("请选择图片！");
+                return;
+            }
+            //读取完成
+            reader.onload = function(e) {
+
+                //获取图片dom
+                var img = document.getElementById("preview");
+                $('.show-img').removeClass('div-none');
+                //图片路径设置为读取的图片
+                img.src = e.target.result;
+
+            };
+            reader.readAsDataURL(file);
+        }
+
+    });
+
+
+    /**
+     * 跳转到指定页面
+     * @param href
+     * @returns {boolean}
+     */
+    function webHref(href) {
+
+        var host = window.location.origin;
+        var jumpHref = '';
+        if (!href){
+            jumpHref = host;
+        }else {
+            jumpHref = host+href;
+        }
+
+        window.location.href = jumpHref;//页面跳转
+    }
+
+
+</script>
+
+
+</body>
+</html>
