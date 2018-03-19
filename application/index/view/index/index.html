@@ -26,6 +26,16 @@
             height: 200px;
         }
 
+        a{
+            color: #1e1e1e;
+            text-decoration: none;
+        }
+
+        a:hover{
+            color: #581d1d;
+            text-decoration: none;
+        }
+
     </style>
 
 </head>
@@ -38,16 +48,18 @@
 
     <div class="row" id="list">
         <div class="col-md-3 col-xs-12 col-sm-12 col-lg-3" v-for="item in users">
-            <div class="thumbnail">
-                <img class="show-img" :src="item.img">
-                <div class="caption">
-                    <h3>{{item.user_name}}</h3>
-                    <h4>{{item.title}}</h4>
-                    <p>
-                        <a :href="item.url" target="_blank" class="btn btn-primary" role="button">观看</a>
-                    </p>
+            <a :href="item.url" target="_blank" >
+                <div class="thumbnail">
+                    <img class="show-img" :src="item.img">
+                    <div class="caption">
+                        <h3>{{item.user_name}}</h3>
+                        <h4>{{item.title}}</h4>
+                        <p>
+                            <a :href="item.url" target="_blank" class="btn btn-primary" role="button">观看</a>
+                        </p>
+                    </div>
                 </div>
-            </div>
+            </a>
         </div>
     </div>
 
