@@ -104,14 +104,4 @@ class User extends Controller {
         ajaxRes(-1,'数据不存在!');
     }
 
-    /**
-     * 更新直播状态
-     * @param $userRes
-     */
-    private function updata($userRes){
-
-    }
-
-
-
 }

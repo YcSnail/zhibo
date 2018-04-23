@@ -176,7 +176,27 @@ function checkStatus($userRes){
             $userRes[$i]['status']  = douyu($userRes[$i]['url']);
         }
 
+        if ( strstr($userRes[$i]['url'] , 'huomao' ) ){
+            $userRes[$i]['status']  = huomao($userRes[$i]['url']);
+
+        }
+
     }
 
     return $userRes;
+}
+
+
+function huomao($url){
+
+    // is_videoicon = 1
+    $Curl = model('curl');
+    $res = $Curl->get($url);
+
+    $checkStatus = strpos($res,'is_videoicon = 1');
+
+    if ($checkStatus){
+        return false;
+    }
+    return true;
 }
