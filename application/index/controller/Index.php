@@ -83,9 +83,6 @@ class Index extends Controller
             return true;
         }
         return false;
-
-
-
     }
 
     public function panda(){

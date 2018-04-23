@@ -43,6 +43,11 @@
             box-shadow: #666 0px 0px 1px;
         }
 
+        .isShow{
+            color: #d20000;
+        }
+
+
     </style>
 
 </head>
@@ -61,6 +66,15 @@
                     <div class="caption">
                         <h3>{{item.user_name}}</h3>
                         <h4>{{item.title}}</h4>
+                        <p v-if="item.status === '0'">
+                            正在检测
+                        </p>
+                        <p class="isShow" v-else-if='item.status'>
+                            正在直播
+                        </p>
+                        <p class="isNotShow" v-else>
+                           未在直播
+                        </p>
                         <p>
                             <a :href="item.url" target="_blank" class="btn btn-primary" role="button">观看</a>
                         </p>
@@ -94,12 +108,30 @@
             function (data) {
                 if (data.code == 0) {
                     list.users = data.message;
+                    getStatus();
                 } else {
                     alert(data.messag);
                 }
 
             }, 'JSON'
-        )
+
+        );
+
+        function getStatus() {
+            // get 请求
+            var url = "/api/user/getStatus";
+            $.get(
+                url,
+                function (data) {
+                    if (data.code == 0) {
+                        list.users = data.message;
+                    } else {
+                        alert(data.messag);
+                    }
+
+                }, 'JSON'
+            )
+        }
 
 
     })

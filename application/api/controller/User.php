@@ -20,9 +20,21 @@ class User extends Controller {
      */
     public function getUserList(){
 
+
         // 查询数据库
         $userRes = Db::table('zb_user')->select();
 
+        // 判断上次更新时间
+        if (empty($userRes)){
+            ajaxRes(-1,'数据不存在!');
+        }
+
+        if (!isset($userRes[0])){
+            ajaxRes(-1,'数据不存在!');
+
+        }
+
+        // 保存到数据库
         if (!empty($userRes)){
             ajaxRes(0,$userRes);
         }
@@ -66,6 +78,38 @@ class User extends Controller {
         }
 
         ajaxRes(-1,'添加成功!');
+    }
+
+
+    public function getStatus(){
+
+        // 查询数据库
+        $userRes = Db::table('zb_user')->select();
+
+        // 判断上次更新时间
+        if (empty($userRes)){
+            ajaxRes(-1,'数据不存在!');
+        }
+
+        if (!isset($userRes[0])){
+            ajaxRes(-1,'数据不存在!');
+
+        }
+        $userRes = checkStatus($userRes);
+
+        // 保存到数据库
+        if (!empty($userRes)){
+            ajaxRes(0,$userRes);
+        }
+        ajaxRes(-1,'数据不存在!');
+    }
+
+    /**
+     * 更新直播状态
+     * @param $userRes
+     */
+    private function updata($userRes){
+
     }
 
 
