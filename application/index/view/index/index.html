@@ -86,6 +86,8 @@
 
     <a href="{:url('index/add')}" class="btn btn-primary" role="button">添加主播</a>
 
+    <p class="btn btn-primary btn-reload">刷新直播状态</p>
+
 
 </div>
 
@@ -117,13 +119,18 @@
 
         );
 
-        function getStatus() {
+        function getStatus(style) {
             // get 请求
             var url = "/api/user/getStatus";
             $.get(
                 url,
                 function (data) {
                     if (data.code == 0) {
+
+                        if (style =='reload'){
+                            $('.btn-reload').text('刷新直播状态');
+                        }
+
                         list.users = data.message;
                     } else {
                         alert(data.messag);
@@ -133,6 +140,10 @@
             )
         }
 
+        $('.btn-reload').click(function () {
+            $('.btn-reload').text('正在刷新...');
+            getStatus('reload');
+        });
 
     })
 
