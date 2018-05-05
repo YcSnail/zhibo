@@ -47,6 +47,9 @@
             color: #d20000;
         }
 
+        .footer{
+            margin-bottom: 100px;
+        }
 
     </style>
 
@@ -84,9 +87,11 @@
         </div>
     </div>
 
-    <a href="{:url('index/add')}" class="btn btn-primary" role="button">添加主播</a>
+    <div class="footer">
+        <a href="{:url('index/add')}" class="btn btn-primary" role="button">添加主播</a>
+        <p class="btn btn-primary btn-reload">刷新直播状态</p>
+    </div>
 
-    <p class="btn btn-primary btn-reload">刷新直播状态</p>
 
 
 </div>
