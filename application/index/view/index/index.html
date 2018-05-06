@@ -51,6 +51,28 @@
             margin-bottom: 100px;
         }
 
+        .mask{
+            position: fixed;
+            left: 50%;
+            bottom: 6%;
+            width: 160px;
+            margin-left: -80px;
+        }
+
+        .mask p{
+            background-color: #444444;
+            color: #fff;
+            text-align: center;
+            height: 24px;
+            line-height: 24px;
+            font-size: 14px;
+            border-radius: 15px;
+        }
+
+        .div-none{
+            display: none
+        }
+
     </style>
 
 </head>
@@ -90,6 +112,10 @@
     <div class="footer">
         <a href="{:url('index/add')}" class="btn btn-primary" role="button">添加主播</a>
         <p class="btn btn-primary btn-reload">刷新直播状态</p>
+    </div>
+
+    <div class="mask div-none">
+        <p>正在刷新...</p>
     </div>
 
 
@@ -134,7 +160,12 @@
 
                         if (style =='reload'){
                             $('.btn-reload').text('刷新直播状态');
+                            $('.mask > p').text('刷新成功!');
+                        }else{
+                            $('.mask').show(1000);
+                            $('.mask > p').text('检测完成');
                         }
+                        setTimeout(closeMask,2000);  //延迟1s执行 getTest() 这个js函数
 
                         list.users = data.message;
                     } else {
@@ -146,10 +177,16 @@
         }
 
         $('.btn-reload').click(function () {
-            $('.btn-reload').text('正在刷新...');
+            $('.mask > p').text('正在刷新...');
+            $('.mask').show(1000);
             getStatus('reload');
         });
 
+        
+        function closeMask() {
+            $('.mask').hide(2000);
+        }
+        
     })
 
 
