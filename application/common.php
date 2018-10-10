@@ -143,7 +143,8 @@ function douyu($url){
     // 判断是否存在
     // host-prevStartTime
     // 检查是否 未直播
-    $checkStatus = strpos($res,'data-anchor-info="timetit"');
+    $checkStatus = strpos($res,'<div class="time-v-con">');
+
     unset($res);
     // 如果 返回 数字 为 不在播  false 正在直播
     if ($checkStatus){
