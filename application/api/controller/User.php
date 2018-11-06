@@ -22,7 +22,7 @@ class User extends Controller {
 
 
         // 查询数据库
-        $userRes = Db::table('zb_user')->select();
+        $userRes = Db::table('zb_user')->field('img,status,title,url,user_name')->select();
 
         // 判断上次更新时间
         if (empty($userRes)){
@@ -84,7 +84,7 @@ class User extends Controller {
     public function getStatus(){
 
         // 查询数据库
-        $userRes = Db::table('zb_user')->select();
+        $userRes = Db::table('zb_user')->field('img,status,title,url,user_name')->select();
 
         // 判断上次更新时间
         if (empty($userRes)){

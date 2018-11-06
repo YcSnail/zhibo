@@ -143,7 +143,8 @@ function douyu($url){
     // 判断是否存在
     // host-prevStartTime
     // 检查是否 未直播
-    $checkStatus = strpos($res,'data-anchor-info="timetit"');
+    $checkStatus = strpos($res,'$ROOM.show_status = 2;');
+
     unset($res);
     // 如果 返回 数字 为 不在播  false 正在直播
     if ($checkStatus){
@@ -178,7 +179,10 @@ function checkStatus($userRes){
 
         if ( strstr($userRes[$i]['url'] , 'huomao' ) ){
             $userRes[$i]['status']  = huomao($userRes[$i]['url']);
+        }
 
+        if ( strstr($userRes[$i]['url'] , 'panda' ) ){
+            $userRes[$i]['status']  = panda($userRes[$i]['url']);
         }
 
     }
@@ -189,12 +193,33 @@ function checkStatus($userRes){
 
 function huomao($url){
 
-    // is_videoicon = 1
     $Curl = model('curl');
     $res = $Curl->get($url);
 
-    $checkStatus = strpos($res,'is_videoicon = 1');
+    $checkStatus = strpos($res,'var is_videoicon = 1;');
 
+    if ($checkStatus){
+        return false;
+    }
+    return true;
+}
+
+function panda($url){
+
+    if (empty($url)){
+        return false;
+    }
+
+    $Curl = model('curl');
+    $res = $Curl->get($url);
+
+    // 判断是否存在
+    // host-prevStartTime
+    // 检查是否 未直播
+    $checkStatus = strpos($res,'"watermark_loc":"2"');
+
+    unset($res);
+    // 如果 返回 数字 为 不在播  false 正在直播
     if ($checkStatus){
         return false;
     }
