@@ -56,6 +56,7 @@ class Curl{
         /* 初始化并执行curl请求 */
         $ch = curl_init();
         curl_setopt_array($ch, $opts);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
         $data = curl_exec($ch);
         $error = curl_error($ch);
         curl_close($ch);
