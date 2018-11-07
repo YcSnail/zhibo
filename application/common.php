@@ -101,59 +101,6 @@ function setBase64File($base64Code){
     return false;
 }
 
-
-// 判断虎牙 是否直播
-/**
- * @param $url
- * @return bool
- * true 正在直播
- * false 未在直播
- */
-function huya($url){
-
-    if (empty($url)){
-        return false;
-    }
-
-    $Curl = model('curl');
-    $res = $Curl->get($url);
-
-    // 判断是否存在
-    // host-prevStartTime
-    // 检查是否 未直播
-    $checkStatus = strpos($res,"host-prevStartTime");
-    unset($res);
-    // 如果 返回 数字 为 不在播  false 正在直播
-    if ($checkStatus){
-        return false;
-    }
-    return true;
-}
-
-
-function douyu($url){
-
-    if (empty($url)){
-        return false;
-    }
-
-    $Curl = model('curl');
-    $res = $Curl->get($url);
-
-    // 判断是否存在
-    // host-prevStartTime
-    // 检查是否 未直播
-    $checkStatus = strpos($res,'$ROOM.show_status = 2;');
-
-    unset($res);
-    // 如果 返回 数字 为 不在播  false 正在直播
-    if ($checkStatus){
-        return false;
-    }
-    return true;
-}
-
-
 function checkStatus($userRes){
 
     if (empty($userRes)){
@@ -191,6 +138,61 @@ function checkStatus($userRes){
 }
 
 
+
+// 判断虎牙 是否直播
+/**
+ * @param $url
+ * @return bool
+ * true 正在直播
+ * false 未在直播
+ */
+function huya($url){
+
+    if (empty($url)){
+        return false;
+    }
+
+    $Curl = model('curl');
+    $res = $Curl->get($url);
+
+    // 判断是否存在
+    // host-prevStartTime
+    // 检查是否 未直播
+    $checkStatus = strpos($res,"host-prevStartTime");
+    unset($res);
+    // 如果 返回 数字 为 不在播  false 正在直播
+    if ($checkStatus){
+        return false;
+    }
+    return true;
+}
+
+
+function douyu($url){
+
+    if (empty($url)){
+        return false;
+    }
+
+    $Curl = model('curl');
+    // 处理链接为移动端
+    $url = str_replace("www","m",$url);
+    $res = $Curl->get($url,'',true);
+
+    // 判断是否存在
+    // host-prevStartTime
+    // 检查是否 未直播
+    $checkStatus = strpos($res,'"isLive":0,');
+
+    unset($res);
+    // 如果 返回 数字 为 不在播  false 正在直播
+    if ($checkStatus){
+        return false;
+    }
+    return true;
+}
+
+
 function huomao($url){
 
     $Curl = model('curl');
@@ -214,9 +216,8 @@ function panda($url){
     $res = $Curl->get($url);
 
     // 判断是否存在
-    // host-prevStartTime
     // 检查是否 未直播
-    $checkStatus = strpos($res,'"watermark_loc":"2"');
+    $checkStatus = strpos($res,'"watermark_switch":"1",');
 
     unset($res);
     // 如果 返回 数字 为 不在播  false 正在直播

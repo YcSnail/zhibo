@@ -7,12 +7,20 @@ namespace app\common\model;
 
 class Curl{
 
-    public function get($url,$params = ''){
+    public function get($url,$params = '',$isMobile = false){
         $paramsStr = '';
         if (is_array($params)){
             $paramsStr = implode($params);
         }
-        $ret = $this->http($url, $paramsStr , 'GET');
+
+        $header = [];
+        if ($isMobile){
+            $header = array(
+                'user-agent:Mozilla/5.0 (Linux; Android 5.0; SM-G900P Build/LRX21T) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.132 Mobile Safari/537.36'
+            );
+        }
+
+        $ret = $this->http($url, $paramsStr , 'GET',false,$header);
         return $ret;
     }
 
