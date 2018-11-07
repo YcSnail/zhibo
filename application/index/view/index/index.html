@@ -38,17 +38,13 @@
         }
 
         .thumbnail:hover{
-            -webkit-box-shadow: #666 0px 0px 1px;
-            -moz-box-shadow: #666 0px 0px 1px;
-            box-shadow: #666 0px 0px 1px;
+            box-shadow: 10px 9px 11px #ccc;
+            -webkit-box-shadow: 10px 9px 11px #ccc;;
+            -moz-box-shadow: 10px 9px 11px #ccc;;
         }
 
         .isShow{
             color: #d20000;
-        }
-
-        .footer{
-            margin-bottom: 100px;
         }
 
         .mask{
@@ -73,6 +69,12 @@
             display: none
         }
 
+        .bs-docs-footer{
+            margin-top: 60px;
+            height: 40px;
+            line-height: 40px;
+        }
+
     </style>
 
 </head>
@@ -84,7 +86,7 @@
     </div>
 
     <div class="row" id="list">
-        <div class="col-md-3 col-xs-12 col-sm-12 col-lg-3" v-for="item in users">
+        <div class="col-md-3 col-xs-6 col-sm-4 col-lg-3" v-for="item in users">
             <a :href="item.url" target="_blank" >
                 <div class="thumbnail">
                     <img class="show-img" :src="item.img">
@@ -118,6 +120,12 @@
         <p>正在刷新...</p>
     </div>
 
+
+    <footer class="bs-docs-footer">
+        <div class="container">
+            © by <a href="https://weibo.com/607891221" target="_blank">会跑的蜗牛</a>
+        </div>
+    </footer>
 
 
 </div>
