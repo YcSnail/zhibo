@@ -9,10 +9,9 @@
     <script src="/static/bootstrap/js/bootstrap.js"></script>
     <script src="/static/js/vue.min.js"></script>
 
-    <title>直播检测平台</title>
-    <meta name='Keywords' content='直播,虎牙直播,熊猫直播,斗鱼直播,火猫直播,longdd,黄翔,主播是否直播,查询是否直播'>
+    <title>主播菜馆-直播检测平台</title>
+    <meta name='Keywords' content='直播,虎牙直播,熊猫直播,斗鱼直播,火猫直播,longdd,黄翔,longdd直播,龙弟弟直播,龙弟弟,主播是否直播,查询是否直播'>
     <meta name='Description' content='直播检测平台是一个检测主播当前直播状态的平台,用户方便查看主播是否在播的平台'>
-
 
     <style>
         .show-status {
@@ -37,7 +36,10 @@
         a:hover{
             color: #581d1d;
             text-decoration: none;
+        }
 
+        a:active,a:visited{
+            text-decoration: none;
         }
 
         .thumbnail:hover{
@@ -79,6 +81,21 @@
             line-height: 40px;
         }
 
+        .btn-action{
+            border-color: #ff7d23;
+            background-color: #ff7d23;
+        }
+
+        .btn-rest{
+            background-color: #3d912a;
+            border-color: #3d912a;
+        }
+
+        .container{
+            margin-bottom: 40px;
+        }
+
+
     </style>
 
 </head>
@@ -86,7 +103,7 @@
 
 <div class="container bs-docs-container">
     <div class="page-header">
-        <h1>直播观影台<small>专业服务 VIP体验</small></h1>
+        <h1>直播菜馆<small>顾客至上 辣味自选</small></h1>
     </div>
 
     <div class="row" id="list">
@@ -98,16 +115,17 @@
                         <h3>{{item.user_name}}</h3>
                         <h4>{{item.title}}</h4>
                         <p v-if="item.status === '0'">
-                            正在检测
+                            正在查看厨房
                         </p>
                         <p class="isShow" v-else-if='item.status'>
-                            正在直播
+                            正在做菜
                         </p>
                         <p class="isNotShow" v-else>
-                           未在直播
+                           厨师休息中
                         </p>
                         <p>
-                            <a :href="item.url" target="_blank" class="btn btn-primary" role="button">观看</a>
+                            <a :href="item.url" v-if='item.status' target="_blank" class="btn btn-primary btn-action" role="button">开饭</a>
+                            <a :href="item.url" v-else target="_blank" class="btn btn-primary btn-rest" role="button">参观灶台</a>
                         </p>
                     </div>
                 </div>
@@ -116,8 +134,8 @@
     </div>
 
     <div class="footer">
-        <a href="{:url('index/add')}" class="btn btn-primary" role="button">添加主播</a>
-        <p class="btn btn-primary btn-reload">刷新直播状态</p>
+        <a href="{:url('index/add')}" class="btn btn-primary" role="button">添加大厨</a>
+        <p class="btn btn-primary btn-reload">刷新厨师状态</p>
     </div>
 
     <div class="mask div-none">
@@ -127,7 +145,10 @@
 
     <footer class="bs-docs-footer">
         <div class="container">
-            © by <a href="https://weibo.com/607891221" target="_blank">会跑的蜗牛</a>
+            <div>
+                相关链接: <a href="https://www.longdd.top" target="_blank">小腿弹幕查询平台</a>
+                © by <a href="https://weibo.com/607891221" target="_blank">会跑的蜗牛</a>
+            </div>
         </div>
         <div class="container">
             暂只支持:虎牙 斗鱼 火猫

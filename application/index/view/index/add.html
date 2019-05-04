@@ -149,11 +149,11 @@
                 },function (data) {
 
                     if (data.code == 0){
-                        showMessage('添加成功! 3秒后返回主页');
+                        showMessage('添加成功! 1秒后返回主页');
                         setTimeout(function(){  //使用  setTimeout（）方法设定定时2000毫秒
                             var href = window.location.origin;
                             window.location.href = href;
-                        },3000);
+                        },1000);
 
                     }else{
                         showMessage(data.message);
