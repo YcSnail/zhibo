@@ -195,34 +195,22 @@ function douyu($url){
 
 function huomao($url){
 
+    //  处理URL
+    // 切割对应的房间号
+
+    $newUrlArr = explode('/',$url);
+
+    if (count($newUrlArr) < 4){
+        return false;
+    }
+
+    $roomId = end($newUrlArr);
+    $getUrl = 'http://www.huomao.com/mobile/mob_live/'.$roomId;
     $Curl = model('curl');
-    $res = $Curl->get($url);
 
-    $checkStatus = strpos($res,'var is_videoicon = 1;');
+    $res = $Curl->get($getUrl);
 
-    ///
-    ///
-    // cdns:1
-    // streamtype:live
-    // VideoIDS:WdiDS9HMyLOdPRtHOFQ
-    // from:huomaoh5room
-    // time:1542692097
-    // token:2328f26f1d9447d8520bf6b937c27873
-
-    // "stream"  "huomaoh5room" 1542692097
-
-    // 6FE26D855E1AEAE090E243EB1AF73685
-
-
-    // $a = 'stream';
-    // $b = 'huomaoh5room';
-    // $c = time();
-
-//    var a1 ='';
-//
-//    md5(_0x5c69x37[__Ox1fa4d[10]] + __Ox1fa4d[11] + _0x5c69x32 + _0x5c69x2b());
-
-
+    $checkStatus = strpos($res,'var screentype = 1');
 
     if ($checkStatus){
         return false;
