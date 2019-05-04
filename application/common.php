@@ -120,16 +120,24 @@ function checkStatus($userRes){
             $userRes[$i]['status']  = huya($userRes[$i]['url']);
         }
 
-        if ( strstr($userRes[$i]['url'] , 'douyu' ) ){
+        else if ( strstr($userRes[$i]['url'] , 'douyu' ) ){
             $userRes[$i]['status']  = douyu($userRes[$i]['url']);
         }
 
-        if ( strstr($userRes[$i]['url'] , 'huomao' ) ){
+        else if ( strstr($userRes[$i]['url'] , 'huomao' ) ){
             $userRes[$i]['status']  = huomao($userRes[$i]['url']);
         }
 
-        if ( strstr($userRes[$i]['url'] , 'panda' ) ){
+        else if ( strstr($userRes[$i]['url'] , 'panda' ) ){
             $userRes[$i]['status']  = panda($userRes[$i]['url']);
+        }
+
+        else if ( strstr($userRes[$i]['url'] , 'bilibili' ) ){
+            $userRes[$i]['status']  = bilibili($userRes[$i]['url']);
+        }
+
+        else if ( strstr($userRes[$i]['url'] , 'egame.qq.com' ) ){
+            $userRes[$i]['status']  = egame($userRes[$i]['url']);
         }
 
     }
@@ -237,4 +245,53 @@ function panda($url){
         return false;
     }
     return true;
+}
+
+function bilibili($url){
+
+    //  处理URL
+    // 切割对应的房间号
+    $newUrlArr = explode('?',$url);
+
+    if (count($newUrlArr)< 2){
+        return false;
+    }
+
+    $newUrlArr = explode('/',$newUrlArr[0]);
+
+    if (count($newUrlArr) < 4){
+        return false;
+    }
+
+    $roomId = end($newUrlArr);
+    $getUrl = 'https://api.live.bilibili.com/room/v1/Room/get_info?device=phone&platform=ios&scale=3&build=10000&room_id='.$roomId;
+    $Curl = model('curl');
+    $res = $Curl->get($getUrl);
+
+    $checkStatus = strpos($res,'live_time: "0000-00-00 00:00:00"');
+
+    if ($checkStatus){
+        return false;
+    }
+    return true;
+
+
+}
+
+function egame($url){
+
+    $Curl = model('curl');
+    $res = $Curl->get($url);
+
+    var_dump($res);
+    die();
+
+    $checkStatus = strpos($res,'<h3>直播已结束</h3>');
+
+    if ($checkStatus){
+        return false;
+    }
+    return true;
+
+
 }
