@@ -218,7 +218,8 @@ function huomao($url){
 
     $res = $Curl->get($getUrl);
 
-    $checkStatus = strpos($res,'var screentype = 1');
+    // 2 未在直播
+    $checkStatus = strpos($res,'var screentype = 2');
 
     if ($checkStatus){
         return false;
@@ -268,7 +269,8 @@ function bilibili($url){
     $Curl = model('curl');
     $res = $Curl->get($getUrl);
 
-    $checkStatus = strpos($res,'live_time: "0000-00-00 00:00:00"');
+    // 0 未直播
+    $checkStatus = strpos($res,'live_status: 0');
 
     if ($checkStatus){
         return false;

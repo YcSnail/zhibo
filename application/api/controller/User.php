@@ -104,4 +104,31 @@ class User extends Controller {
         ajaxRes(-1,'数据不存在!');
     }
 
+
+    public function test(){
+        echo 'test';
+        die();
+        $url ='http://www.huomao.com/777777';
+
+        $newUrlArr = explode('/',$url);
+
+        if (count($newUrlArr) < 4){
+            return false;
+        }
+
+        $roomId = end($newUrlArr);
+
+        $getUrl = 'http://www.huomao.com/mobile/mob_live/'.$roomId;
+        $Curl = model('curl');
+
+        $res = $Curl->get($getUrl);
+
+        $checkStatus = strpos($res,'var screentype = 1');
+
+        var_dump($checkStatus);
+        var_dump($res);
+        die();
+
+    }
+
 }
