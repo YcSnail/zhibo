@@ -218,13 +218,13 @@ function huomao($url){
 
     $res = $Curl->get($getUrl);
 
-    // 2 未在直播
-    $checkStatus = strpos($res,'var screentype = 2');
+    //1 正在直播 2 未在直播
+    $checkStatus = strpos($res,'var screentype = 1');
 
-    if ($checkStatus){
-        return false;
+    if ($checkStatus !== false){
+        return true;
     }
-    return true;
+    return false;
 }
 
 function panda($url){
@@ -270,9 +270,9 @@ function bilibili($url){
     $res = $Curl->get($getUrl);
 
     // 0 未直播
-    $checkStatus = strpos($res,'live_status: 0');
+    $checkStatus = strpos($res,'"live_status":0,');
 
-    if ($checkStatus){
+    if ($checkStatus !== false){
         return false;
     }
     return true;
