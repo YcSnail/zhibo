@@ -218,10 +218,10 @@ function huomao($url){
 
     $res = $Curl->get($getUrl);
 
-    //1 正在直播 2 未在直播
-    $checkStatus = strpos($res,'var screentype = 1');
+    //1 未在直播 2 正在直播
+    $checkStatus = strpos($res,'var screentype = 2;');
 
-    if ($checkStatus !== false){
+    if ($checkStatus){
         return true;
     }
     return false;
