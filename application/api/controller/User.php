@@ -107,6 +107,33 @@ class User extends Controller {
 
     public function test(){
 
+
+        $getUrl = 'http://www.huomao.com/777777';
+
+//        $newUrlArr = explode('/',$url);
+//
+//        if (count($newUrlArr) < 4){
+//            return false;
+//        }
+//
+//        $roomId = end($newUrlArr);
+//        $getUrl = 'http://www.huomao.com/mobile/mob_live/'.$roomId;
+        $Curl = model('curl');
+
+        $res = $Curl->get($getUrl);
+
+        //1 未在直播 2 正在直播
+        $checkStatus = strpos($res,'本房间主播离开了哦！');
+
+        var_dump($checkStatus);
+        var_dump($res);
+
+
+        if ($checkStatus){
+            return true;
+        }
+        return false;
+
     }
 
 }
