@@ -22,41 +22,16 @@ class Index extends Controller
         $res = $Curl->get($url);
 
         // 检查是否 未直播
-        dump($res);
-        die();
 
     }
 
-    public function test(){
+    public function panda(){
 
-        // post
-        // http://www.huomao.com/swf/live_data
+    }
 
-        //cdns:1
-        //streamtype:live
-        //VideoIDS:W4iEStLLyOmZMR5EPUuKXjx3kA
-        //from:huomaoh5room
-        //time:1542382709
-        //token:30cbd1788e3f6d123f25f5ce5e05dfec
+    public function ti9(){
 
-
-        $cdns=1;
-        $streamtype='live';
-        $videoIDS = 'W4iEStLLyOmZMR5EPUuKXjx3kA';
-        $time = '1542442916';
-        $from = 'huomaoh5room';
-        $token = 'e437a84ef2fa78c053a61acc34d0378c';
-
-        $str = 'cdns='.$cdns.'&streamtype='.$streamtype.'&videoIDS='.$videoIDS.'&form='.$from.'&time='.$time;
-
-        $str= 'cdns=1&streamtype=live&VideoIDS=W4iEStLLyOmZMR5EPUuKXjx3kA&from=huomaoh5room&time=1542442916';
-
-        $pdw = md5($str);
-
-        echo '本地加密:'.$pdw;
-        echo '<hr>';
-        echo '原加密后:' .$token;
-
+        return $this->fetch();
     }
 
 
