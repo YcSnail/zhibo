@@ -107,6 +107,48 @@ class User extends Controller {
 
     public function test(){
 
+        $time  = time();
+
+        $postArr =[
+            'cdns'=>1,
+            'streamtype'=>'live',
+            'VideoIDS'=>'',
+            'from'=>'huomaoh5room',
+            'time'=>$time
+        ];
+
+
+
+
+        // 获取指定参数
+
+        $url = 'http://www.huomao.com/777777';
+
+        $newUrlArr = explode('/',$url);
+
+        if (count($newUrlArr) < 4){
+            return false;
+        }
+
+
+
+        $roomId = end($newUrlArr);
+        $getUrl = 'http://www.huomao.com/swf/live_data';
+        $Curl = model('curl');
+
+        $res = $Curl->get($getUrl);
+
+        //1 未在直播 2 正在直播
+        $checkStatus = strpos($res,'本房间主播离开了哦！');
+
+        var_dump($checkStatus);
+        var_dump($res);
+
+
+        if ($checkStatus){
+            return true;
+        }
+        return false;
 
     }
 

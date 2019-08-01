@@ -4,229 +4,176 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=Edge">
 
-    <link rel="stylesheet" href="/static/bootstrap/css/bootstrap.css">
     <script src="/static/js/jquery.3.3.1.js"></script>
-    <script src="/static/bootstrap/js/bootstrap.js"></script>
     <script src="/static/js/vue.min.js"></script>
+    <link rel="stylesheet" href="/static/css/index.css">
 
     <title>主播菜馆-直播检测平台</title>
-    <meta name='Keywords' content='直播,虎牙直播,熊猫直播,斗鱼直播,火猫直播,longdd,黄翔,longdd直播,龙弟弟直播,龙弟弟,主播是否直播,查询是否直播'>
+    <meta name='Keywords' content='直播平台,检测是否直播,dota2主播,直播,虎牙直播,熊猫直播,斗鱼直播,火猫直播,longdd,黄翔,longdd直播,龙弟弟直播,龙弟弟,主播是否直播,查询是否直播'>
     <meta name='Description' content='直播检测平台是一个检测主播当前直播状态的平台,用户方便查看主播是否在播的平台'>
 
     <style>
-        .show-status {
-            border-radius: 6px;
-            padding: 4px;
+        footer{
+            margin: 40px 0;
         }
 
-        .bs-docs-container {
-            margin-top: 30px;
-        }
-
-        .thumbnail .show-img {
-            width: 250px;
-            height: 200px;
-        }
-
-        a{
-            color: #1e1e1e;
-            text-decoration: none;
-        }
-
-        a:hover{
-            color: #581d1d;
-            text-decoration: none;
-        }
-
-        a:active,a:visited{
-            text-decoration: none;
-        }
-
-        .thumbnail:hover{
-            box-shadow: 10px 9px 11px #ccc;
-            -webkit-box-shadow: 10px 9px 11px #ccc;;
-            -moz-box-shadow: 10px 9px 11px #ccc;
-            margin-left: 1px;
-        }
-
-        .isShow{
-            color: #d20000;
-        }
-
-        .mask{
-            position: fixed;
-            left: 50%;
-            bottom: 6%;
-            width: 160px;
-            margin-left: -80px;
-        }
-
-        .mask p{
-            background-color: #444444;
+        button{
             color: #fff;
-            text-align: center;
-            height: 24px;
-            line-height: 24px;
-            font-size: 14px;
-            border-radius: 15px;
         }
 
-        .div-none{
-            display: none
+        .footer-desc{
+            margin-top: 10px;
+            font-size: 16px;
+            color: #ff5d23;
         }
 
-        .bs-docs-footer{
-            margin-top: 60px;
-            height: 40px;
-            line-height: 40px;
+        .footer-desc a{
+            color: #ff5d23;
+            text-overline: none;
+            text-decoration: none;
         }
-
-        .btn-action{
-            border-color: #ff7d23;
-            background-color: #ff7d23;
-        }
-
-        .btn-rest{
-            background-color: #3d912a;
-            border-color: #3d912a;
-        }
-
-        .container{
-            margin-bottom: 40px;
-        }
-
 
     </style>
 
 </head>
 <body>
 
-<div class="container bs-docs-container">
-    <div class="page-header">
-        <h1>直播菜馆<small>顾客至上 辣味自选</small></h1>
-    </div>
+    <div id="app">
+        <div class="title">
+            <div>主播菜馆</div>
+            <div>顾客至上 辣味自选</div>
+        </div>
+        <div class="container"  @click="openZhibo(item.url)" v-for="item in userList">
+            <div class="item">
+                <div class="img">
+                    <img :src="item.img" alt="">
+                </div>
 
-    <div class="row" id="list">
-        <div class="col-md-3 col-xs-6 col-sm-4 col-lg-3" v-for="item in users">
-            <a :href="item.url" target="_blank" >
-                <div class="thumbnail">
-                    <img class="show-img" :src="item.img">
-                    <div class="caption">
-                        <h3>{{item.user_name}}</h3>
-                        <h4>{{item.title}}</h4>
-                        <p v-if="item.status === '0'">
-                            正在查看厨房
-                        </p>
-                        <p class="isShow" v-else-if='item.status'>
-                            正在做菜
-                        </p>
-                        <p class="isNotShow" v-else>
-                           厨师休息中
-                        </p>
-                        <p>
-                            <a :href="item.url" v-if='item.status' target="_blank" class="btn btn-primary btn-action" role="button">开饭</a>
-                            <a :href="item.url" v-else target="_blank" class="btn btn-primary btn-rest" role="button">参观灶台</a>
-                        </p>
+                <div class="user-info">
+                    <div class="user-name">
+                        <div>{{item.user_name}}</div>
+                        <div>{{item.title}}</div>
+                    </div>
+                    <div class="user-btn">
+                        <button type="button" :class="autoClass(item.status)">{{autoStatus(item.status)}}</button>
                     </div>
                 </div>
-            </a>
-        </div>
-    </div>
 
-    <div class="footer">
-        <a href="{:url('index/add')}" class="btn btn-primary" role="button">添加大厨</a>
-        <p class="btn btn-primary btn-reload">刷新厨师状态</p>
-    </div>
-
-    <div class="mask div-none">
-        <p>正在刷新...</p>
-    </div>
-
-
-    <footer class="bs-docs-footer">
-        <div class="container">
-            <div>
-                相关链接: <a href="https://www.longdd.top" target="_blank">小腿弹幕查询平台</a>
-                © by <a href="https://weibo.com/607891221" target="_blank">会跑的蜗牛</a>
             </div>
-        </div>
-        <div class="container">
-            <p>暂只支持:虎牙 斗鱼 火猫 B站</p>
-            <!--<p>发现BUG 暂未修复</p>-->
+
         </div>
 
-    </footer>
+        <div class="mask">
+            <p>正在刷新...</p>
+        </div>
 
+        <footer>
 
-</div>
+            <div class="btn-group">
+                <button type="button" class="online" @click="jump('https://zhibo.longdd.top/index/index/add')">添加大厨</button>
+                <button type="button" class="off-online" @click="getStatus()">刷新厨师状态</button>
+                <button type="button" class="off-online"  @click="jump('https://www.longdd.top')">小腿弹幕查询平台</button>
+            </div>
+
+            <div class="footer-desc">
+                <div>
+                    © by <a href="https://weibo.com/607891221" target="_blank">会跑的蜗牛</a>
+                </div>
+                <div>
+                    <p>暂只支持:虎牙 斗鱼 火猫 B站</p>
+                </div>
+            </div>
+
+        </footer>
+
+    </div>
 
 <script>
 
     $().ready(function () {
 
-        var list = new Vue({
-            el: '#list',
+        var app = new Vue({
+            el: '#app',
             data: {
-                users: []
+                userList: []
+            },
+            methods:{
+                openZhibo(url){
+                    window.open(url);
+                },
+                autoClass:function (status) {
+                    return status ? 'online' : 'off-online';
+                },
+                autoStatus:function (status) {
+                    return status ? '开饭' : '参观灶台';
+                }
+                ,jump(url){
+                    window.open(url);
+                },
+
+                getlist(){
+                    // get 请求
+                    var url = "/api/user/getUserList";
+                    var that = this;
+
+                    $.get(
+                        url,
+                        function (data) {
+                            if (data.code == 0) {
+                                that.userList = data.message;
+                                that.getStatus();
+                            } else {
+                                alert(data.messag);
+                            }
+
+                        }, 'JSON'
+
+                    );
+
+                }
+                ,getStatus(){
+                    // get 请求
+                    var url = "/api/user/getStatus";
+                    var that = this;
+
+                    mask.show();
+
+                    $.get(
+                        url,
+                        function (data) {
+                            if (data.code == 0) {
+
+                                mask.close();
+                                that.userList = data.message;
+
+                            } else {
+                                alert(data.messag);
+                            }
+
+                        }, 'JSON'
+                    )
+                }
+
+            },
+
+            created:function () {
+                this.getlist()
             }
 
         });
 
-        // get 请求
-        var url = "/api/user/getUserList";
-        $.get(
-            url,
-            function (data) {
-                if (data.code == 0) {
-                    list.users = data.message;
-                    getStatus();
-                } else {
-                    alert(data.messag);
-                }
+        var mask = {
+            show(){
+                $('.mask > p').text('正在检测直播状态...');
+                $('.mask').show(1000);
+            }
+            ,close(){
+                $('.mask > p').text('检测成功!');
+                $('.mask').hide(1000);
+            }
+        };
 
-            }, 'JSON'
-
-        );
-
-        function getStatus(style) {
-            // get 请求
-            var url = "/api/user/getStatus";
-            $.get(
-                url,
-                function (data) {
-                    if (data.code == 0) {
-
-                        if (style =='reload'){
-                            $('.btn-reload').text('刷新直播状态');
-                            $('.mask > p').text('刷新成功!');
-                        }else{
-                            $('.mask').show(1000);
-                            $('.mask > p').text('检测完成');
-                        }
-                        setTimeout(closeMask,2000);  //延迟1s执行 getTest() 这个js函数
-
-                        list.users = data.message;
-                    } else {
-                        alert(data.messag);
-                    }
-
-                }, 'JSON'
-            )
-        }
-
-        $('.btn-reload').click(function () {
-            $('.mask > p').text('正在刷新...');
-            $('.mask').show(1000);
-            getStatus('reload');
-        });
-
-        
-        function closeMask() {
-            $('.mask').hide(2000);
-        }
-        
     })
 
 
 </script>
-{include file="public/footer" /}
